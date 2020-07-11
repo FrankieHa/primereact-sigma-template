@@ -1,11 +1,11 @@
-import React, { useState,  } from 'react'
+import React, { useState, } from 'react'
 import classNames from 'classnames'
 import { AppTopbar } from './AppTopbar'
 import { ScrollPanel } from 'primereact/components/scrollpanel/ScrollPanel'
 import { AppInlineProfile } from './AppInlineProfile'
 import { AppMenu } from './AppMenu'
 import { MenuItem } from 'primereact/components/menuitem/MenuItem'
-import { Route } from 'react-router-dom'
+import { Route, useNavigate, Routes } from 'react-router-dom'
 import { DataDemo } from './components/DataDemo'
 import { DataHooksDemo } from './components/DataHooksDemo'
 
@@ -16,6 +16,7 @@ import 'primeflex/primeflex.css'
 import 'fullcalendar/main.css'
 import './layout/layout.css'
 import './App.css'
+import Page1 from './components/Page1';
 
 interface AppState {
     layoutMode: string
@@ -26,6 +27,7 @@ interface AppState {
 }
 
 const App = () => {
+    const navigate = useNavigate();
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('dark');
     const [staticMenuInactive, setStaticMenuInactive] = useState(false);
@@ -55,8 +57,9 @@ const App = () => {
             label: 'Components', icon: 'pi pi-fw pi-globe',
             //                label: 'Components', icon: 'pi pi-fw pi-globe', badge: '9',
             items: [
-                { label: 'Data', icon: 'pi pi-fw pi-align-justify', command: () => { window.location.href = "#/data" } },
-                { label: 'Data - Hooks', icon: 'pi pi-fw pi-align-justify', command: () => { window.location.href = "#/datahooks" } }
+                { label: 'Data', icon: 'pi pi-fw pi-align-justify', command: () => { navigate('/data') } },
+                { label: 'Data - Hooks', icon: 'pi pi-fw pi-align-justify', command: () => { navigate('/datahooks') } },
+                { label: 'Page 1', icon: 'pi pi-fw pi-align-justify', command: () => { navigate('/page1') } }
             ]
         }
     ]
@@ -142,8 +145,11 @@ const App = () => {
             </div>
 
             <div className="layout-main">
-                <Route path="/data" component={DataDemo} />
-                <Route path="/datahooks" component={DataHooksDemo} />
+                <Routes>
+                    <Route path="/data" element={<DataDemo />} />
+                    <Route path="/datahooks" element={<DataHooksDemo />} />
+                    <Route path="/page1" element={<Page1 />} />
+                </Routes>
             </div>
 
         </div>
